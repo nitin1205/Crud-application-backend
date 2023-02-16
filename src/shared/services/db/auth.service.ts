@@ -16,4 +16,4 @@ class AuthService {
     };
 };
 
-export const authSrvice: AuthService = new AuthService();
+export const authService: AuthService = new AuthService();
