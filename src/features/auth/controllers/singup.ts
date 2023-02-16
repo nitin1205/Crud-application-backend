@@ -1,11 +1,43 @@
-// import { Request, Response } from 'express';
-// import HTTP_STATUS from 'http-status-codes';
+import { Request, Response } from 'express';
+import HTTP_STATUS from 'http-status-codes';
 
-// import { IAuthDocument } from '@auth/interface/auth.interface';
+import { IAuthDocument, ISignupData } from '@auth/interface/auth.interface';
+import { authService } from '@service/db/auth.service';
+import { BadRequestError } from '@global/helpers/error-handler';
+import { Helpers } from '@global/helpers/helpers';
+import { joiValidation } from '@root/shared/decorators/joi-validation.decorators';
+import { signupSchema } from '@auth/schemes/signup';
 
-// export class Signup {
-//     public async create(req: Request, res: Response): Promise<void> {
-//         const { name, email, mobile, password } = req.body;
-//         const checkIfUserExists: IAuthDocument = authService.getUserByNameOrEmail(name, email);
-//     };
-// };
+export class Signup {
+    @joiValidation(signupSchema)
+    public async create(req: Request, res: Response): Promise<void> {
+        const { name, email, mobile, password } = req.body;
+        const checkIfUserExists: IAuthDocument = await authService.getUserByNameOrEmail(name, email);
+        
+        if (checkIfUserExists) {
+            throw new BadRequestError('User already exists');
+        };
+
+        const authData: IAuthDocument = Signup.prototype.signupData({
+            name,
+            email,
+            mobile,
+            password,
+        });
+
+        authService.createAuthUser(authData);
+
+        res.status(HTTP_STATUS.CREATED).json({ message: 'user created succesfully', user: authData });
+    };
+
+    private signupData(data: ISignupData): IAuthDocument {
+        const { name, email, mobile, password } = data;
+        return {
+            name: Helpers.firstLetterUppercase(name),
+            email: Helpers.lowerCase(email),
+            mobile,
+            password,
+            createdAt: new Date()
+        } as IAuthDocument;
+    };
+};
