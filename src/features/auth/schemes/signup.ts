@@ -12,10 +12,10 @@ const signupSchema: ObjectSchema = Joi.object().keys({
         'string.email': 'Email must be valid',
         'string:empty': 'Email is a required field',
     }),
-    mobile: Joi.number().required().min(10).max(10).messages({
+    mobile: Joi.number().required().messages({
         'number.base': 'Mobile must be of number type',
-        'number.min': 'Invalid mobile no.',
-        'number.max': 'Invalid mobile no.',
+        // 'number.min': 'Invalid mobile no.',
+        // 'number.max': 'Invalid mobile no.',
         'number.empty': 'Mobile is a required field'
     }),
     password: Joi.string().required().min(4).max(15).messages({
