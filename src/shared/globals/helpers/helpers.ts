@@ -10,4 +10,17 @@ export class Helpers {
     static lowerCase(str: string): string {
         return str.toLowerCase();
     };
+
+    static generateRandomPassword() {
+        const length = 8;
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+      
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+      
+        return result;
+      }
+      
 }
