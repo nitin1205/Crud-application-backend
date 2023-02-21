@@ -10,7 +10,8 @@ const authSchema: Schema = new Schema(
         email: { type: String },
         mobile: { type: Number },
         password: { type: String },
-        createdAt: { type: Date, default: Date.now() }
+        createdAt: { type: Date, default: Date.now() },
+        userRole: { type: String, default: 'user' }
     },
     {
         toJSON: {

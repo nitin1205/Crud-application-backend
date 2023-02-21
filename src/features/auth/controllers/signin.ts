@@ -31,7 +31,7 @@ export class SignIn {
                     'name': existingUser.name
                 }
             },
-            config.ACCESS_TOEKN_SECRET!,
+            config.ACCESS_TOKEN_SECRET!,
             { expiresIn: '10s' }
         );
 
@@ -45,8 +45,6 @@ export class SignIn {
 
         req.session = { 'jwt': refreshToken };
 
-        res.status(HTTP_STATUS.OK).json({ accessToken });
-        
-
+        res.status(HTTP_STATUS.OK).json({ accessToken, user: existingUser });        
     };
 };
