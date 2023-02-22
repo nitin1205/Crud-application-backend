@@ -11,7 +11,7 @@ const authSchema: Schema = new Schema(
         mobile: { type: Number },
         password: { type: String },
         createdAt: { type: Date, default: Date.now() },
-        userRole: { type: String, default: 'user' }
+        roles: { type: Array, default: ['user'] }
     },
     {
         toJSON: {

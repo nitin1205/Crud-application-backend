@@ -15,7 +15,7 @@ export class Signup {
     public async create(req: Request, res: Response): Promise<void> {
         const { name, email, mobile } = req.body;
         const password = Helpers.generateRandomPassword();
-        const checkIfUserExists: IAuthDocument = await authService.getUserByNameOrEmail(name, email);
+        const checkIfUserExists: IAuthDocument = await authService.getUserByEmail(email);
         
         if (checkIfUserExists) {
             throw new BadRequestError('User already exists');
