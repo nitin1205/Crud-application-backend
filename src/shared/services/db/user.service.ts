@@ -23,12 +23,18 @@ class UserService {
         ) as IUserDocument;
         return user;
     };
+
+    public async getAllUsers(): Promise<IUserDocument[]> {
+        const users: IUserDocument[] = await UserModel.find().select('-password').lean();
+        return users;
+    }
+
+    public async updateUser(id: ObjectId, name: string, email: string, mobile: number, roles: string[]) {
+
+    }
     
-    public async deleteUser(userId: ObjectId): Promise<IUserDocument> {
-        const user: IUserDocument = (await UserModel.findOne({
-            _id: userId 
-        }).exec()
-        ) as IUserDocument;
+    public async deleteUser(userId: ObjectId) {
+        const user = await UserModel.deleteOne({_id: userId }).exec();
         return user;
     };
 };
